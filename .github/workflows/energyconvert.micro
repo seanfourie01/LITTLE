@@ -1,0 +1,18 @@
+PROGRAM energy_convert
+BEGIN
+    FLOAT kj, cal, ev, k1, k2;
+    STRING newline := "\n";
+
+    FUNCTION VOID main()
+    BEGIN
+        READ(kj);
+
+        k1 := 239.005736;
+        cal := kj * k1;
+
+        k2 := 6.242e+21;
+        ev := kj * k2;
+
+        WRITE(cal, ev, newline);
+    END
+END
