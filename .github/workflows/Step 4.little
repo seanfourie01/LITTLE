@@ -19,3 +19,14 @@ END
 
 
 //input value in kJ and then get it in Calories and Electronvolts
+
+Examples:
+
+Input (kj): 1
+cal = 1 * 239.005736 = 239.005736
+ev = 1 * 6.242e+21 = 6.242e+21
+
+Input (kj): 12.5
+cal = 12.5 * 239.005736 = 2987.5717
+ev = 12.5 * 6.242e+21 = 7.8025e+22
+
