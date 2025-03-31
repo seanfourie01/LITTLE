@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="step4_files">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/step4_files.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
