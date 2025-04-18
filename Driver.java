@@ -34,6 +34,17 @@ public class Driver {
 		// print the symbol table entries
 		stb.prettyPrint();
 
+		// Walk with AST builder
+		ASTBuilder astBuilder = new ASTBuilder();
+		walker.walk(astBuilder, tree);
+		
+		// Output AST
+		ProgramNode astRoot = astBuilder.getRoot();
+		printAST(astRoot, 0);
+		
+		// Pretty print symbol table
+		stb.prettyPrint();
+
 		//YOU ARE NOT REQUIRED TO ADD ANY CODE HERE
 	}
 }
