@@ -41,10 +41,15 @@ public class Driver {
 		// Output AST
 		ProgramNode astRoot = astBuilder.getRoot();
 		printAST(astRoot, 0);
-		
-		// Pretty print symbol table
-		stb.prettyPrint();
 
 		//YOU ARE NOT REQUIRED TO ADD ANY CODE HERE
+	}
+
+	private static void printAST(ASTNode node, int indent) {
+		if (node == null) return;
+		System.out.println("  ".repeat(indent) + node.toString());
+		for (ASTNode child : node.getChildren()) {
+			printAST(child, indent + 1);
+		}
 	}
 }
