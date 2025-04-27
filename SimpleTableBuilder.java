@@ -93,6 +93,31 @@ public class SimpleTableBuilder extends LittleBaseListener {
 		super.exitElse_part(ctx);
 	}
 
+	public String getDeclarations() {
+		String output = "";
+
+		Stack<ScopedSymbolTable> stack = new Stack<>();
+		ScopedSymbolTable root = currentScope;
+		while(root.getParentScope() != null) {
+			root = root.getParentScope();
+		}
+
+		stack.add(root);
+
+		while(!stack.isEmpty()) {
+			ScopedSymbolTable cur = stack.pop();
+
+			ArrayList<ScopedSymbolTable> children = cur.getChildren();
+			Collections.reverse(children);
+			stack.addAll(children);
+
+			output += (cur.getDeclarations());
+		}
+
+		return output;
+
+	}
+
 	public void prettyPrint(){
 		Stack<ScopedSymbolTable> stack = new Stack<>();
 		ArrayList<String> outputs = new ArrayList<>();
@@ -115,5 +140,28 @@ public class SimpleTableBuilder extends LittleBaseListener {
 		}
 
 		System.out.print(String.join("\n\n", outputs));
+	}
+
+	public Symbol lookup(String id) {
+		Stack<ScopedSymbolTable> stack = new Stack<>();
+		ScopedSymbolTable root = currentScope;
+		while(root.getParentScope() != null) {
+			root = root.getParentScope();
+		}
+		stack.add(root);
+
+		while(!stack.isEmpty()) {
+			ScopedSymbolTable cur = stack.pop();
+			Symbol result = cur.lookup(id);
+			if(result != null) {
+				return result;
+			}
+
+			ArrayList<ScopedSymbolTable> children = cur.getChildren();
+			Collections.reverse(children);
+			stack.addAll(children);
+		}
+
+		return null;
 	}
 }

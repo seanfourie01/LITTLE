@@ -2,6 +2,9 @@
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
+import java.util.Deque;
+import java.util.stream.Collectors;
+
 //YOU ARE NOT REQUIRED TO MODIFY THIS CLASS
 
 public class Driver {
@@ -32,24 +35,41 @@ public class Driver {
 		walker.walk(stb, tree);
 		
 		// print the symbol table entries
-		stb.prettyPrint();
+//		stb.prettyPrint();
+//		System.out.println();
+
 
 		// Walk with AST builder
-		ASTBuilder astBuilder = new ASTBuilder();
+		ASTBuilder astBuilder = new ASTBuilder(stb);
 		walker.walk(astBuilder, tree);
-		
-		// Output AST
-		ProgramNode astRoot = astBuilder.getRoot();
-		printAST(astRoot, 0);
+
+//		while(!astBuilder.stmtStack.isEmpty()) {
+//			printStmtAST(astBuilder.stmtStack.pollLast(), 0);
+//		}
+
+		String asmCode = generateAsm(stb, astBuilder.stmtStack);
+		System.out.println(asmCode);
 
 		//YOU ARE NOT REQUIRED TO ADD ANY CODE HERE
 	}
 
-	private static void printAST(ASTNode node, int indent) {
-		if (node == null) return;
-		System.out.println("  ".repeat(indent) + node.toString());
-		for (ASTNode child : node.getChildren()) {
-			printAST(child, indent + 1);
+	private static String generateAsm(SimpleTableBuilder stb, Deque<Stmt> stmtStack) {
+		String output = "";
+		output += stb.getDeclarations();
+
+		while(!stmtStack.isEmpty()) {
+			Stmt stmt = stmtStack.pollLast();
+			if (stmt instanceof AssignStmt) {
+				output += stmt.getResultCode();
+			} else if (stmt instanceof ReadStmt) {
+				output += stmt.getResultCode();
+			} else if (stmt instanceof WriteStmt) {
+				output += stmt.getResultCode();
+			}
 		}
+
+		output += "sys halt\n";
+
+		return output;
 	}
 }

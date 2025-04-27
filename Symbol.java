@@ -23,6 +23,21 @@ public class Symbol {
         return type;
     }
 
+    public String getAsmDeclaration() {
+        switch (this.type) {
+            case "INT":
+                return String.format("var %s\n", this.name);
+            case "FLOAT":
+                return String.format("var %s\n", this.name);
+
+            case "STRING":
+                return String.format("str %s%s\n", this.name, this.value!=null ? " "+this.value : "");
+
+            default:
+                return "";
+        }
+    }
+
     @Override
     public String toString() {
         String output = String.format("name %s type %s", this.name, this.type);

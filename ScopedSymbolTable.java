@@ -57,6 +57,16 @@ class ScopedSymbolTable {
         return mySymbols;
     }
 
+    public String getDeclarations() {
+        StringBuilder output = new StringBuilder();
+
+        for(Symbol symbol : this.getSymbols()) {
+            output.append(symbol.getAsmDeclaration());
+        }
+
+        return output.toString();
+    }
+
     @Override
     public String toString() {
         String output = "";
